@@ -6,6 +6,7 @@ import HomePage from "./pages/Home";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Notifications = lazy(() => import("./pages/Notifications"));
+const TestPage = lazy(() => import("./pages/Test"));
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="test" element={<TestPage />} />
         </Route>
       </Routes>
     </div>
