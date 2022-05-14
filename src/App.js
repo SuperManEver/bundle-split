@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { lazy, Suspense } from "react";
+import { Routes, Route, Outlet, Link } from "react-router-dom";
+import "./styles.css";
 
-function App() {
+import HomePage from "./pages/Home";
+
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React Router Code Splitting Demo</h1>
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
 
-export default App;
+const DashboardPage = () => (
+  <Suspense fallback={<div>Page is Loading...</div>}>
+    <Dashboard />
+  </Suspense>
+);
+
+const NotificationsPage = () => (
+  <Suspense fallback={<div>Page is Loading...</div>}>
+    <Notifications />
+  </Suspense>
+);
+
+const AppLayout = () => {
+  return (
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/notifications">Notifications</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <hr />
+
+      <Outlet />
+    </div>
+  );
+};
